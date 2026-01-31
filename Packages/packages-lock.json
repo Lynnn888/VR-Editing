@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.meta.witai": {
+      "version": "https://github.com/wit-ai/wit-unity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "caea6e3b561f42cf4769c339596596a137eab3cc"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.9",
       "depth": 0,
@@ -214,7 +221,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.hands": {
-      "version": "1.7.2",
+      "version": "1.7.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {

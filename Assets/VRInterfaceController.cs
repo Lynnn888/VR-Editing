@@ -1,49 +1,73 @@
 using UnityEngine;
 using TMPro;
+using System; // 用于记录交互时间
+
 public class VRInterfaceController : MonoBehaviour
 {
     [Header("UI References")]
-    public TMP_Text targetText;              // 显示 target sentence
-    public TMP_InputField errorInputField;   // 显示/输入 error sentence
+    public TMP_Text targetText;              // 显示目标句子
+    public TMP_InputField errorInputField;   // 用于纠错的输入框
 
-    // target sentence
+    [Header("Feedback Settings")]
+    public Color highlightColor = Color.yellow;
+    private Color originalColor = Color.white;
+
+    // 更新目标文本
     public void UpdateTargetText(string newText)
     {
         if (targetText != null)
             targetText.text = newText;
     }
 
-    // 获取用户在 InputField 里输入的句子
+    // 获取当前输入框内容
     public string GetUserInput()
     {
-        if (errorInputField != null)
-            return errorInputField.text;
-
-        return "";
+        return errorInputField != null ? errorInputField.text : "";
     }
 
-    // LLM 修改后结果显示在 InputField 中
+    // 将模型或处理后的结果填回输入框
     public void ApplyModelOutput(string correctedText)
     {
         if (errorInputField != null)
+        {
             errorInputField.text = correctedText;
+        }
     }
 
-    //gaze方法
+    // 交互触发方法 
+
+    // Gaze 方法
     public void TriggerByGaze()
     {
-        Debug.Log("Gaze Triggered!");
+        Debug.Log($"[Gaze Event] 触发于: {DateTime.Now:HH:mm:ss.fff}");
+
+        // 自动激活输入框以便后续操作
+        if (errorInputField != null)
+        {
+            errorInputField.ActivateInputField();
+        }
     }
 
-    //touch方法
+    // Hand 方法
     public void TriggerByHand()
     {
-        Debug.Log("Hand Gesture Triggered!");
+        Debug.Log($"[Hand Event] 手势识别成功触发");
+
+        if (errorInputField != null)
+        {
+            errorInputField.Select();
+        }
     }
 
-    //voice方法
+    // Voice 方法
     public void TriggerByVoice(string voiceCommand)
     {
-        Debug.Log("Voice Received: " + voiceCommand);
+        Debug.Log($"[Voice Event] 收到指令: {voiceCommand}");
+
+        //如果指令包含特定的修正词，可以直接更新文本
+        if (!string.IsNullOrEmpty(voiceCommand))
+        {
+            
+        }
     }
 }
